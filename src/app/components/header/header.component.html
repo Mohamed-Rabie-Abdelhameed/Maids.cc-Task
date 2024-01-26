@@ -1,1 +1,49 @@
-<p>header works!</p>
+<div
+  class="bg flex flex-col items-center gap-12 bg-primary text-white md:px-40 md:py-24 px-4 py-16"
+>
+  <h1 class="text-4xl md:text-6xl max-w-4xl text-center font-semibold">
+    Revolutionize Your User Dashboard Experience
+  </h1>
+
+  <form class="w-full max-w-3xl">
+    <label
+      for="default-search"
+      class="mb-2 text-sm font-medium text-gray sr-only"
+      >Search</label
+    >
+    <div class="relative">
+      <div
+        class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none"
+      >
+        <svg
+          class="w-4 h-4 text-dark"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 20 20"
+        >
+          <path
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+          />
+        </svg>
+      </div>
+      <input
+        type="search"
+        id="default-search"
+        class="block w-full p-4 ps-10 text-sm text-dark border border-gray rounded-lg bg-gray focus:ring-primary focus:border-primary"
+        placeholder="Search for users by id ..."
+        [(ngModel)]="searchTerm"
+        name="search"
+        (input)="searchUser()"
+        required
+      />
+      <div class="mt-4 bg-gray w-full rounded-lg absolute">
+
+      </div>
+    </div>
+  </form>
+</div>
