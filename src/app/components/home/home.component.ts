@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { HeaderComponent } from '../header/header.component';
 import { UserCardComponent } from '../user-card/user-card.component';
 
@@ -9,7 +9,8 @@ import { UserCardComponent } from '../user-card/user-card.component';
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit{
+  currentPage = 1;
   users = [
     {
       avatar_image: 'https://example.com/avatar1.jpg',
@@ -72,4 +73,27 @@ export class HomeComponent {
       id: 10,
     },
   ];
+  displayedUsers:any = [];
+
+  ngOnInit(): void {
+    this.loadUsers();
+  }
+
+  loadUsers() {
+    this.displayedUsers = this.users.slice(
+      (this.currentPage - 1) * 6,
+      this.currentPage * 6
+    );
+  }
+  nextPage() {
+    this.currentPage++;
+    this.loadUsers();
+  }
+
+  prevPage() {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.loadUsers();
+    }
+  }
 }
