@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class ApiService {
   usersUrl: string = 'https://reqres.in/api/users?page=';
-  userDetailsUrl: string = 'https://reqres.in/api/users/';
+  userDetailsUrl: string = 'https://reqres.in/api/users/';  
 
   constructor(private http: HttpClient) {}
 
