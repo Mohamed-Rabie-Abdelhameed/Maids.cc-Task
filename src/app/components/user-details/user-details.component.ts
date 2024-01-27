@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { ApiService } from '../../services/api.service';
-
+import AOS from 'aos';
 @Component({
   selector: 'app-user-details',
   standalone: true,
@@ -15,6 +15,11 @@ export class UserDetailsComponent implements OnInit {
   isLoading = signal(false);
   constructor(private route: ActivatedRoute, private apiService: ApiService) {}
   ngOnInit() {
+    AOS.init({
+      once: true,
+      duration: 1000,
+      easing: 'ease-in-out',
+    });
     this.isLoading.set(true);
     this.route.params.subscribe((params) => {
       this.id = params['id'];
