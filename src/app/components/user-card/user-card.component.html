@@ -1,12 +1,22 @@
-<div class="bg-white border border-gray rounded-lg shadow">
+<div class="h-full bg-white border border-gray rounded-lg shadow">
   <a [routerLink]="['/user', user.id]">
-    <img class="w-full rounded-t-lg" src="https://i.pravatar.cc/500" alt="" />
+    <img
+      class="h-96 w-full object-cover rounded-t-lg"
+      [src]="user.avatar"
+      [alt]="user.first_name + ' ' + user.last_name"
+    />
   </a>
   <div class="p-5">
     <a [routerLink]="['/user', user.id]">
       <h5 class="mb-4 text-2xl font-bold tracking-tight text-dark">
         {{ user.first_name + " " + user.last_name }}
       </h5>
+    </a>
+    <a
+      [routerLink]="['/user', user.id]"
+      class="block mb-4 text-base text-tertiary"
+    >
+      {{ user.email }}
     </a>
     <a
       [routerLink]="['/user', user.id]"

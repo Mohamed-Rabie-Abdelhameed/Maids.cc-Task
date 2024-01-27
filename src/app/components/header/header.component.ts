@@ -19,7 +19,7 @@ export class HeaderComponent {
     this.searchSubject
       .pipe(debounceTime(500), distinctUntilChanged())
       .subscribe(() => {
-        this.apiService.getUsers(1).subscribe((results) => {
+        this.apiService.getUsers(2).subscribe((results) => {
           this.searchResults = results;
           console.log(this.searchResults);
         });
