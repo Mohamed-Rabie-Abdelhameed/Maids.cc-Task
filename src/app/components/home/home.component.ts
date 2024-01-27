@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { HeaderComponent } from '../header/header.component';
 import { UserCardComponent } from '../user-card/user-card.component';
 import { ApiService } from '../../services/api.service';
@@ -12,33 +12,45 @@ import { ApiService } from '../../services/api.service';
 })
 export class HomeComponent implements OnInit {
   constructor(private ApiService: ApiService) {}
-  currentPage = 1;
+  currentPage = signal(1);
+  isLoading = signal(false);
+  errorHappened = signal(false);
   totalPages: number = 1;
   users: any[] = [];
 
   ngOnInit(): void {
+    this.isLoading.set(true);
     this.ApiService.getUsers(1).subscribe((results) => {
       this.totalPages = results.total_pages;
       this.users = results.data;
+      this.isLoading.set(false);
     });
   }
 
   loadUsers() {
-    this.ApiService.getUsers(this.currentPage).subscribe((results) => {
+    this.isLoading.set(true);
+    this.ApiService.getUsers(this.currentPage()).subscribe((results) => {
       this.users = results.data;
-    });
+      this.isLoading.set(false);
+    },
+      (err) =>{
+        this.isLoading.set(false);
+        this.errorHappened.set(true);
+        console.log(err);
+      }
+    );
   }
 
   nextPage() {
-    if (this.currentPage < this.totalPages) {
-      this.currentPage++;
+    if (this.currentPage() < this.totalPages) {
+      this.currentPage.set(this.currentPage() + 1);
       this.loadUsers();
     }
   }
 
   prevPage() {
-    if (this.currentPage > 1) {
-      this.currentPage--;
+    if (this.currentPage() > 1) {
+      this.currentPage.set(this.currentPage() - 1);
       this.loadUsers();
     }
   }

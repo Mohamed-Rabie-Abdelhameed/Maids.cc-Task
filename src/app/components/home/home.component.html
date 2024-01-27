@@ -4,6 +4,21 @@
 <main class="bg-light px-4 py-6 md:px-24 md:py-12">
   <h1 class="text-4xl md:text-6xl font-semibold">All Users</h1>
   <div class="line w-full h-1 bg-gray my-4 md:my-8 rounded-full"></div>
+  @if (isLoading()) {
+  <div
+    class="flex flex-col gap-4 items-center justify-center h-[calc(100vh-18rem)]"
+  >
+    <p class="text-2xl text-tertiary">Loading...</p>
+    <div class="loader"></div>
+  </div>
+  } @else if (errorHappened()) {
+  <div
+    class="flex flex-col gap-4 items-center justify-center h-[calc(100vh-18rem)]"
+  >
+    <p class="text-2xl text-tertiary">Error</p>
+    <p class="text-tertiary">Something went wrong</p>
+  </div>
+  } @else{
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
     @for (user of users; track user.id) {
     <div>
@@ -11,13 +26,14 @@
     </div>
     }
   </div>
+  }
 
   <!-- pagination buttons -->
   <div class="mt-8 flex justify-center">
     <!-- Previous Button -->
     <button
       (click)="prevPage()"
-      [disabled]="currentPage===1"
+      [disabled]="currentPage() === 1"
       class="flex items-center justify-center px-4 h-10 me-3 text-base font-medium text-tertiary bg-white border border-gray-300 rounded-lg hover:bg-primary hover:text-gray"
     >
       <svg
@@ -39,9 +55,9 @@
     </button>
     <button
       (click)="nextPage()"
-      [disabled]="currentPage===totalPages"
+      [disabled]="currentPage() === totalPages"
       class="flex items-center justify-center px-4 h-10 me-3 text-base font-medium text-tertiary bg-white border border-gray-300 rounded-lg hover:bg-primary hover:text-gray"
-      >
+    >
       Next
       <svg
         class="w-3.5 h-3.5 ms-2 rtl:rotate-180"
