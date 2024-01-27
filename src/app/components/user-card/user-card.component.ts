@@ -10,5 +10,4 @@ import { RouterLink } from '@angular/router';
 })
 export class UserCardComponent {
   @Input() user: any;
-
 }

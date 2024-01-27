@@ -23,7 +23,6 @@ export class HeaderComponent implements AfterViewInit {
       .pipe(debounceTime(500), distinctUntilChanged())
       .subscribe(() => {
         this.filterUsers();
-        console.log(this.searchResults);
       });
   }
 
@@ -39,17 +38,20 @@ export class HeaderComponent implements AfterViewInit {
     this.apiService.getUsers(page).subscribe((results) => {
       this.allUsers = this.allUsers.concat(results.data);
       this.totalPages = results.total_pages;
-      console.log(this.allUsers);
     });
   }
 
   filterUsers() {
+    if (this.searchTerm == null) {
+      this.searchResults = [];
+      return;
+    }
     this.searchResults = this.allUsers.filter((user: any) => {
       return user.id.toString().includes(this.searchTerm);
     });
   }
   searchUser() {
-    if (this.searchTerm.length === 0) {
+    if (this.searchTerm == null) {
       this.searchResults = [];
       return;
     }

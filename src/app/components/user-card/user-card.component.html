@@ -1,4 +1,4 @@
-<div class="h-full bg-white border border-gray rounded-lg shadow">
+<div class="h-full bg-white border border-gray rounded-lg shadow hover:border-primary transition-colors duration-300 ease-in-out">
   <a [routerLink]="['/user', user.id]">
     <img
       class="h-96 w-full object-cover rounded-t-lg"
@@ -20,7 +20,7 @@
     </a>
     <a
       [routerLink]="['/user', user.id]"
-      class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-primary rounded-lg hover:bg-secondary focus:ring-4 focus:outline-none focus:ring-secondary"
+      class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-primary rounded-lg hover:bg-secondary focus:ring-4 focus:outline-none focus:ring-secondary transition-colors duration-300 ease-in-out"
     >
       Read more
       <svg

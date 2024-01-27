@@ -1,1 +1,68 @@
-<p>user-details works!</p>
+@if (isLoading()) {
+<div
+  class="flex flex-col gap-4 items-center justify-center h-[calc(100vh-18rem)]"
+>
+  <p class="text-2xl text-tertiary">Loading...</p>
+  <div class="loader"></div>
+</div>
+}@else {
+<main class="flex flex-col justify-center bg-light px-4 py-6 lg:px-24 lg:py-12">
+  <a
+    class="mb-8 block cursor-pointer hover:bg-black bg-tertiary rounded-2xl px-4 md:px-8 py-2 w-fit font-normal text-white transition-colors duration-300 ease-in-out"
+    [routerLink]="['/']"
+  >
+    <svg
+      class="w-6 h-6 text-gray-800 dark:text-white"
+      aria-hidden="true"
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+    >
+      <path
+        stroke="currentColor"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="m15 19-7-7 7-7"
+      />
+    </svg>
+  </a>
+  <h1 class="text-4xl md:text-6xl font-semibold">User Details</h1>
+  <div class="w-full h-1 bg-tertiary my-4 md:my-8 rounded-full"></div>
+
+  <div
+    class="flex flex-col bg-white border border-gray rounded-lg shadow md:flex-row"
+  >
+    <img
+      class="object-cover rounded-t-lg h-96 md:h-[25rem] md:rounded-none md:rounded-s-lg"
+      [src]="user.avatar"
+      [alt]="user.first_name + ' ' + user.last_name + ' avatar'"
+    />
+    <div class="flex flex-col gap-8 justify-start p-6 leading-normal">
+      <h5 class="text-3xl lg:text-5xl font-bold tracking-tight text-secondary">
+        {{ user.first_name }} {{ user.last_name }}
+      </h5>
+      <p class="font-normal text-tertiary max-w-2xl">
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam
+        voluptatum, quibusdam, quia, quae voluptates voluptatem quod
+        exercitationem quos doloribus quidem voluptatibus. Quisquam voluptatum,
+        quibusdam, quia, quae voluptates voluptatem quod exercitationem quos
+        doloribus quidem voluptatibus.
+      </p>
+      <div class="flex flex-col lg:flex-row gap-4">
+        <a
+          class="block cursor-pointer hover:bg-black bg-tertiary rounded-2xl px-4 md:px-8 py-2 w-fit font-normal text-white transition-colors duration-300 ease-in-out"
+          [href]="'mailto:' + user.email"
+        >
+          Email: {{ user.email }}
+        </a>
+        <p
+          class="bg-tertiary rounded-2xl px-4 md:px-8 py-2 w-fit font-normal text-white"
+        >
+          ID: {{ user.id }}
+        </p>
+      </div>
+    </div>
+  </div>
+</main>
+}
