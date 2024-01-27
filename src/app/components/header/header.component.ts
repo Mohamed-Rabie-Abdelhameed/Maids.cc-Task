@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
 import { ApiService } from '../../services/api.service';
 import { RouterLink } from '@angular/router';
+import { CacheService } from '../../services/cache.service';
 
 @Component({
   selector: 'app-header',
@@ -18,7 +19,7 @@ export class HeaderComponent implements AfterViewInit {
   allUsers: any[] = [];
   searchSubject: Subject<string> = new Subject<string>();
 
-  constructor(private apiService: ApiService) {
+  constructor(private apiService: ApiService, private cache: CacheService) {
     this.searchSubject
       .pipe(debounceTime(500), distinctUntilChanged())
       .subscribe(() => {
@@ -35,9 +36,14 @@ export class HeaderComponent implements AfterViewInit {
   }
 
   getUsers(page: number) {
+    if (this.cache.getData('users' + page)) {
+      this.allUsers = this.allUsers.concat(this.cache.getData('users' + page));
+      return;
+    }
     this.apiService.getUsers(page).subscribe((results) => {
       this.allUsers = this.allUsers.concat(results.data);
       this.totalPages = results.total_pages;
+      this.cache.saveData('users' + page, results.data);
     });
   }
 

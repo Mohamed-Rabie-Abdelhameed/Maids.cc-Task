@@ -3,6 +3,7 @@ import { HeaderComponent } from '../header/header.component';
 import { UserCardComponent } from '../user-card/user-card.component';
 import { ApiService } from '../../services/api.service';
 import AOS from 'aos';
+import { CacheService } from '../../services/cache.service';
 
 @Component({
   selector: 'app-home',
@@ -12,7 +13,7 @@ import AOS from 'aos';
   styleUrl: './home.component.css',
 })
 export class HomeComponent implements OnInit {
-  constructor(private ApiService: ApiService) {}
+  constructor(private ApiService: ApiService, private cache: CacheService) {}
   currentPage = signal(1);
   isLoading = signal(false);
   errorHappened = signal(false);
@@ -26,19 +27,27 @@ export class HomeComponent implements OnInit {
       easing: 'ease-in-out',
     });
     this.isLoading.set(true);
-    this.ApiService.getUsers(1).subscribe((results) => {
-      this.totalPages = results.total_pages;
-      this.users = results.data;
-      this.isLoading.set(false);
-    });
+    this.loadUsers();
   }
 
   loadUsers() {
     this.isLoading.set(true);
+    if (
+      this.cache.getData('users' + this.currentPage()) &&
+      this.cache.getData('totalPages')
+    ) {
+      this.users = this.cache.getData('users' + this.currentPage());
+      this.totalPages = this.cache.getData('totalPages');
+      this.isLoading.set(false);
+      return;
+    }
     this.ApiService.getUsers(this.currentPage()).subscribe(
       (results) => {
         this.users = results.data;
+        this.totalPages = results.total_pages;
         this.isLoading.set(false);
+        this.cache.saveData('users' + this.currentPage(), this.users);
+        this.cache.saveData('totalPages', this.totalPages);
       },
       (err) => {
         this.isLoading.set(false);
